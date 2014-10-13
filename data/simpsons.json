@@ -1,0 +1,22 @@
+[
+	{
+		"id": "simp-homer",
+		"name": "Homer Simpson"
+	},
+	{
+		"id": "simp-bart",
+		"name": "Bart Simpson"
+	},
+	{
+		"id": "simp-marge",
+		"name": "Marge Simpson"
+	},
+	{
+		"id": "simp-lisa",
+		"name": "Lisa Simpson"
+	},
+	{
+		"id": "simp-maggie",
+		"name": "Maggie Simpson"
+	}
+]

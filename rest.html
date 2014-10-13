@@ -46,45 +46,47 @@ td > a {
 </style>
 
 <script>
-var app = angular.module("app", []);
+var app = angular.module("app", [
+	'ngResource'
+]);
 
-app.controller('menuController', function($scope, $q, $timeout) {
+app.factory('Simpsons', function($resource) {
+	// Obviously this isn't a real REST feed - its a read only file so any operations sent to it will be ignored
+	return $resource('data/simpsons.json', {}, {
+	});
+});
 
-	$scope.links = [
-		{
-			url: '/tables.html',
-			title: 'Displaying collections as tables + selecting active elements'
-		},
-		{
-			url: '/rest.html',
-			title: 'Example REST using a static JSON file'
-		},
-		{
-			url: '/rest-reddit.html',
-			title: 'Example cross-domain REST data feed from Reddit.com'
-		}
-	];
-
+app.controller('simpsonsController', function($scope, Simpsons) {
+	// Populate $scope.simpsons with the data in data/simpsons.json
+	$scope.simpsons = Simpsons.query({});
 });
 </script>
 
 <body ng-app="app">
-	<div ng-controller="menuController" class="container">
+	<div class="container">
+		<div class="alert alert-info">
+			<h3 class="alert-heading">REST example</h3>
+			<p>An extremely simple example of how to get Angular to pull in REST JSON feeds and display them.</p>
+			<p>This page loads the <a href="data/simpsons.json">simpsons.json</a> data file and displays each simpson in the table below.</p>
+		</div>
+	</div>
+
+	<div ng-controller="simpsonsController" class="container">
 		
 		<div class="row">
-			<h1>ngPlayground</h1>
+			<h1>ngPlayground - REST example</h1>
 		</div>
-		
+
 		<div class="row">
 			<table class="table table-bordered table-striped">
 				<thead>
-					<th width="20px">#</th>
-					<th>Title</th>
+					<th>Id</th>
+					<th>Name</th>
 				</thead>
 				<tbody>
-					<tr ng-repeat="row in links">
-						<td><a ng-href="{{row.url}}">{{$index + 1}}</a></td>
-						<td><a ng-href="{{row.url}}">{{row.title}}</a></td>
+					<tr ng-repeat="simpson in simpsons">
+						<td>{{simpson.id}}</td>
+						<td>{{simpson.name}}</td>
 					</tr>
 				</tbody>
 			</table>
