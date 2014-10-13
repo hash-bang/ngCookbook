@@ -46,41 +46,64 @@ td > a {
 </style>
 
 <script>
-var app = angular.module("app", []);
+var app = angular.module("app", [
+	'ngResource'
+]);
 
-app.controller('menuController', function($scope, $q, $timeout) {
+app.factory('Reddit', function($resource) {
+	return $resource('https://www.reddit.com', {}, {
+		subreddit: {url: 'https://www.reddit.com/r/:subreddit.json', method: 'GET'},
+	});
+});
 
-	$scope.links = [
-		{
-			url: '/tables.html',
-			title: 'Displaying collections as tables + selecting active elements',
-		},
-		{
-			url: '/rest-reddit.html',
-			title: 'Example cross-domain data feed from Reddit.com',
-		}
-	];
+app.controller('redditController', function($scope, $window, Reddit, $http) {
+	$scope.posts = [];
 
+	// Allow Angular to communicate cross domain (not normally needed)
+	$http.defaults.useXDomain = true;
+
+	Reddit.subreddit({subreddit: 'australia'}).$promise
+		.then(function(listings) {
+			// Titles exist within listings.data.children (and for annoying reasons each payload is packed into .data)
+			$scope.posts = _.map(listings.data.children, function(post) {
+				return post.data;
+			});
+		})
+		.catch(function(e) {
+			console.error('An error has occured!', e);
+		});
+
+	$scope.selectPost = function(post) {
+		$window.location = 'https://www.reddit.com' + post.permalink;
+	};
 });
 </script>
 
 <body ng-app="app">
-	<div ng-controller="menuController" class="container">
+	<div class="container">
+		<div class="alert alert-info">
+			<h3 class="alert-heading">Reddit REST example</h3>
+			<p>An extremely simple example of how to get Angular to pull in cross-domain REST feeds and display them.</p>
+			<p>This example also includes an example of mangling an incomming feed to better suite our data structure.</p>
+		</div>
+	</div>
+
+	<div ng-controller="redditController" class="container">
 		
 		<div class="row">
-			<h1>ngPlayground</h1>
+			<h1>ngPlayground - REST example</h1>
 		</div>
-		
+
 		<div class="row">
 			<table class="table table-bordered table-striped">
 				<thead>
-					<th width="20px">#</th>
+					<th>Score</th>
 					<th>Title</th>
 				</thead>
 				<tbody>
-					<tr ng-repeat="row in links">
-						<td><a ng-href="{{row.url}}">{{$index + 1}}</a></td>
-						<td><a ng-href="{{row.url}}">{{row.title}}</a></td>
+					<tr ng-repeat="post in posts">
+						<td><a ng-click="selectPost(post)">{{post.score}}</a></td>
+						<td><a ng-click="selectPost(post)">{{post.title}}</a></td>
 					</tr>
 				</tbody>
 			</table>

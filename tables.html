@@ -46,45 +46,76 @@ td > a {
 </style>
 
 <script>
-var app = angular.module("app", []);
+var app = angular.module("app", [
+	'ngResource',
+	'ngRoute'
+]);
 
-app.controller('menuController', function($scope, $q, $timeout) {
+app.controller('widgetController', function($scope, $q, $timeout) {
 
-	$scope.links = [
-		{
-			url: '/tables.html',
-			title: 'Displaying collections as tables + selecting active elements',
-		},
-		{
-			url: '/rest-reddit.html',
-			title: 'Example cross-domain data feed from Reddit.com',
-		}
+	$scope.widgets = [
+		{id: 'id-foo', title: 'Foo', sprockets: 10},
+		{id: 'id-bar', title: 'Bar', sprockets: 20},
+		{id: 'id-baz', title: 'Baz', sprockets: 30},    
 	];
+	
+	$scope.widget = _.find($scope.widgets, {id: 'id-foo'});
 
+	$scope.selectWidget = function(widget) {
+		$scope.widget = widget;
+	};
+
+	$scope.doSomething = function() {
+		alert('Hello World');
+	};
 });
 </script>
 
 <body ng-app="app">
-	<div ng-controller="menuController" class="container">
+	<div ng-controller="widgetController" class="container">
 		
 		<div class="row">
 			<h1>ngPlayground</h1>
 		</div>
 		
 		<div class="row">
+			<h2>Table of data</h2>
 			<table class="table table-bordered table-striped">
 				<thead>
-					<th width="20px">#</th>
 					<th>Title</th>
+					<th>Sprockets</th>
 				</thead>
 				<tbody>
-					<tr ng-repeat="row in links">
-						<td><a ng-href="{{row.url}}">{{$index + 1}}</a></td>
-						<td><a ng-href="{{row.url}}">{{row.title}}</a></td>
+					<tr ng-repeat="row in widgets" ng-class="row == widget ? 'info' : ''">
+						<td><a ng-click="selectWidget(row)">{{row.title}}</a></td>
+						<td><a ng-click="selectWidget(row)">{{row.sprockets}}</a></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 
+		<div class="row">
+			<h2>Edit form</h2>
+
+			<div class="form-horizontal">
+				<div class="form-group">
+					<label class="col-xs-4 control-label">Title</label>
+					<div class="col-xs-8">
+						<input ng-model="widget.title" type="text" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-4 control-label">Sprockets</label>
+					<div class="col-xs-8">
+						<input ng-model="widget.sprockets" type="number" class="form-control"/>
+					</div>
+				</div>
+				<div class="pull-right">
+					<a ng-click="doSomething()" type="submit" class="btn btn-success"><i class="fa fa-check"></i> Do something</a>
+				</div>
+			</div>
+		</div>
+
 	</div>
+
 </body>
