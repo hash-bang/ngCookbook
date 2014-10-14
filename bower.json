@@ -1,7 +1,7 @@
 {
-  "name": "ngPlayground",
+  "name": "ngCookbook",
   "version": "1.0.0",
-  "homepage": "https://github.com/hash-bang/ngPlayground",
+  "homepage": "https://github.com/hash-bang/ngCookbook",
   "license": "MIT",
   "private": true,
   "dependencies": {

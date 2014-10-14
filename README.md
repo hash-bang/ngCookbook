@@ -1,5 +1,5 @@
-ngPlayground
-============
+ngCookbook
+==========
 Forkable working Angular setup for concept testing.
 
 This project is designed to be a simple-as-possible Angular setup suitable for teaching purposes.
@@ -12,7 +12,7 @@ Installation
 Run the following in a console
 
 	# Clone the repo
-	git clone git@github.com:hash-bang/ngPlayground.git
+	git clone git@github.com:hash-bang/ngCookbook.git
 
 	# Install all bower components
 	bower install
