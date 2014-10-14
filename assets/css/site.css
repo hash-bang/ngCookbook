@@ -10,3 +10,15 @@ td > a {
 	display: block;
 	color: black;
 }
+
+.badge {
+	margin-right: 2px;
+}
+
+/* .badge-info no longer part of base Bootstrap annoyingly */
+.badge-info {
+	background-color: #3a87ad;
+}
+.badge-info:hover {
+	background-color: #2d6987;
+}

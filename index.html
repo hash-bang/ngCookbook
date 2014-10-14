@@ -41,19 +41,23 @@ app.controller('menuController', function($scope) {
 	$scope.links = [
 		{
 			url: 'recipes/tables/index.html',
-			title: 'Displaying collections as tables + selecting active elements'
+			title: 'Displaying collections as tables + selecting active elements',
+			keywords: ['tables', 'crud', 'data', 'feed', 'ngresource']
 		},
 		{
 			url: 'recipes/rest-basic/index.html',
-			title: 'Example REST using a static JSON file'
+			title: 'Example REST using a static JSON file',
+			keywords: ['crud', 'rest', 'data', 'feed', 'json']
 		},
 		{
 			url: 'recipes/modals/index.html',
-			title: 'Editing multiple records from a table via a Bootstrap modal'
+			title: 'Editing multiple records from a table via a Bootstrap modal',
+			keywords: ['crud', 'rest', 'data', 'feed', 'json', 'bootstrap', 'modal']
 		},
 		{
 			url: 'recipes/reddit/index.html',
-			title: 'Example cross-domain REST data feed from Reddit.com'
+			title: 'Example cross-domain REST data feed from Reddit.com',
+			keywords: ['crud', 'rest', 'data', 'feed', 'json', 'x-site', 'x-domain', 'cors']
 		}
 	];
 
@@ -67,13 +71,19 @@ app.controller('menuController', function($scope) {
 		
 		<h1>ngCookbook</h1>
 		<div class="lead">A collection of useful Angular examples suitable for dropping into existing frontend deployments.</div>
-		<div class="lead">View online at [http://ngcookbook.hashbang.net](http://ngcookbook.hashbang.net)</div>
+		<div class="lead">View online at <a href="http://ngcookbook.hashbang.net">http://ngcookbook.hashbang.net</a></div>
 		
 		<div class="row">
 			<h3>Table of contents</h3>
-			<ol>
-				<li ng-repeat="link in links"><a ng-href="{{link.url}}">{{link.title}}</a></li>
-			</ol>
+			<table class="table">
+				<tr ng-repeat="link in links">
+					<td><a ng-href="{{link.url}}">{{$index+1}}</a></td>
+					<td><a ng-href="{{link.url}}">{{link.title}}</a></td>
+					<td class="text-right"><a ng-href="{{link.url}}">
+						<span ng-repeat="keyword in link.keywords" class="badge badge-info"><i class="fa fa-tag"></i> {{keyword}}</span>
+					</a></td>
+				</tr>
+			</table>
 		</div>
 
 	</div>
