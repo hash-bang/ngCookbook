@@ -40,26 +40,36 @@ var app = angular.module("app", [
 
 app.factory('Reddit', function($resource) {
 	return $resource('https://www.reddit.com', {}, {
+		new: {url: 'https://www.reddit.com/new.json', method: 'GET'},
 		subreddit: {url: 'https://www.reddit.com/r/:subreddit.json', method: 'GET'},
 	});
 });
 
-app.controller('redditController', function($scope, $window, $http, Reddit) {
+app.controller('redditController', function($scope, $window, $timeout, $http, Reddit) {
+	$scope.refreshDelay = 5000;
 	$scope.posts = [];
 
 	// Allow Angular to communicate cross domain (not normally needed)
 	$http.defaults.useXDomain = true;
 
-	Reddit.subreddit({subreddit: 'australia'}).$promise
-		.then(function(listings) {
-			// Titles exist within listings.data.children (and for annoying reasons each payload is packed into .data)
-			$scope.posts = _.map(listings.data.children, function(post) {
-				return post.data;
+	$scope.refresh = function() {
+		Reddit.new().$promise
+			.then(function(listings) {
+				// Titles exist within listings.data.children (and for annoying reasons each payload is packed into .data)
+				$scope.posts = _.map(listings.data.children, function(post) {
+					return post.data;
+				});
+
+				console.log("Refreshed with", $scope.posts.length, "articles");
+			})
+			.catch(function(e) {
+				console.error('An error has occured!', e);
+			})
+			.finally(function() { // Re-queue the refresh to happen again
+				$timeout($scope.refresh, $scope.refreshDelay);
 			});
-		})
-		.catch(function(e) {
-			console.error('An error has occured!', e);
-		});
+	};
+	$scope.refresh(); // Kick-off initial load
 
 	$scope.selectPost = function(post) {
 		$window.location = 'https://www.reddit.com' + post.permalink;
@@ -72,15 +82,14 @@ app.controller('redditController', function($scope, $window, $http, Reddit) {
 
 	<div class="container">
 		<div class="alert alert-info">
-			<p>An extremely simple example of how to get Angular to pull in cross-domain REST feeds and display them.</p>
-			<p>This example also includes an example of mangling an incomming feed to better suite our data structure.</p>
+			<p>A more complex example of <a href="../reddit/index.html">the Reddit REST feed example</a> where data is loaded from an external JSON feed but auto-refreshed periodically.</p>
 		</div>
 	</div>
 
 	<div ng-controller="redditController" class="container">
 		
 		<div class="row">
-			<h1>ngCookbook - Reddit REST example</h1>
+			<h1>ngCookbook - Reddit REST + Auto-Refresh example</h1>
 		</div>
 
 		<div class="row">
