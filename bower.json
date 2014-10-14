@@ -12,6 +12,6 @@
     "angular-route": "~1.2.20",
     "fontawesome": "~4.2.0",
     "angular-resource": "~1.2.25",
-    "ng-xenophilous": "~1.1.0"
+    "angular-xenophilous": "~1.3.0"
   }
 }
