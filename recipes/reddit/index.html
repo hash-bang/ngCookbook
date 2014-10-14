@@ -28,22 +28,10 @@
 
 	<!-- lodash -->
 	<script src="/bower_components/lodash/dist/lodash.min.js"></script>
+
+	<!-- ngCookbook -->
+	<link rel="stylesheet" href="/assets/css/site.css">
 </head>
-
-<style>
-a[ng-click] {
-	cursor: pointer;
-}
-
-a:hover {
-	text-decoration: none;
-}
-
-td > a {
-	display: block;
-	color: black;
-}
-</style>
 
 <script>
 var app = angular.module("app", [
@@ -80,9 +68,10 @@ app.controller('redditController', function($scope, $window, Reddit, $http) {
 </script>
 
 <body ng-app="app">
+	<div ng-include="'../../navbar.html'"></div>
+
 	<div class="container">
 		<div class="alert alert-info">
-			<h3 class="alert-heading">Reddit REST example</h3>
 			<p>An extremely simple example of how to get Angular to pull in cross-domain REST feeds and display them.</p>
 			<p>This example also includes an example of mangling an incomming feed to better suite our data structure.</p>
 		</div>

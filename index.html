@@ -28,27 +28,15 @@
 
 	<!-- lodash -->
 	<script src="/bower_components/lodash/dist/lodash.min.js"></script>
+
+	<!-- ngCookbook -->
+	<link rel="stylesheet" href="/assets/css/site.css">
 </head>
-
-<style>
-a[ng-click] {
-	cursor: pointer;
-}
-
-a:hover {
-	text-decoration: none;
-}
-
-td > a {
-	display: block;
-	color: black;
-}
-</style>
 
 <script>
 var app = angular.module("app", []);
 
-app.controller('menuController', function($scope, $q, $timeout) {
+app.controller('menuController', function($scope) {
 
 	$scope.links = [
 		{
@@ -73,26 +61,34 @@ app.controller('menuController', function($scope, $q, $timeout) {
 </script>
 
 <body ng-app="app">
+	<div ng-include="'navbar.html'"></div>
+
 	<div ng-controller="menuController" class="container">
 		
-		<div class="row">
-			<h1>ngCookbook</h1>
-		</div>
+		<div class="lead">A collection of useful Angular examples suitable for dropping into existing frontend deployments.</div>
 		
 		<div class="row">
-			<table class="table table-bordered table-striped">
-				<thead>
-					<th width="20px">#</th>
-					<th>Title</th>
-				</thead>
-				<tbody>
-					<tr ng-repeat="row in links">
-						<td><a ng-href="{{row.url}}">{{$index + 1}}</a></td>
-						<td><a ng-href="{{row.url}}">{{row.title}}</a></td>
-					</tr>
-				</tbody>
-			</table>
+			<h3>Table of contents</h3>
+			<ol>
+				<li ng-repeat="link in links"><a ng-href="{{link.url}}">{{link.title}}</a></li>
+			</ol>
 		</div>
 
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<h1>Recipe rules</h1>
+		</div>
+
+		<div class="row">
+			<p>All ngCookbook examples must conform to the following standards:</p>
+			<ul>
+				<li>Each example must occupy its own folder - including image, css, json or other assets</li>
+				<li>Each example should be as minimal and to the point as possible</li>
+				<li>Each example should endevour to be as copy/paste compatible as possible</li>
+				<li>Each should make adequate use of Bootstrap for layout but not use too many custom CSS or JavaScript elements that would be found outside of a regular website</li>
+			</ul>
+		</div>
 	</div>
 </body>

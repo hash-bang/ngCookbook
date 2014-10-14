@@ -1,0 +1,12 @@
+a[ng-click] {
+	cursor: pointer;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+td > a {
+	display: block;
+	color: black;
+}

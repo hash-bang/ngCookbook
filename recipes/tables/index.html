@@ -28,22 +28,10 @@
 
 	<!-- lodash -->
 	<script src="/bower_components/lodash/dist/lodash.min.js"></script>
+
+	<!-- ngCookbook -->
+	<link rel="stylesheet" href="/assets/css/site.css">
 </head>
-
-<style>
-a[ng-click] {
-	cursor: pointer;
-}
-
-a:hover {
-	text-decoration: none;
-}
-
-td > a {
-	display: block;
-	color: black;
-}
-</style>
 
 <script>
 var app = angular.module("app", [
@@ -72,6 +60,8 @@ app.controller('widgetController', function($scope, $q, $timeout) {
 </script>
 
 <body ng-app="app">
+	<div ng-include="'../../navbar.html'"></div>
+
 	<div ng-controller="widgetController" class="container">
 
 		<div class="row">

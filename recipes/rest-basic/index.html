@@ -28,22 +28,10 @@
 
 	<!-- lodash -->
 	<script src="/bower_components/lodash/dist/lodash.min.js"></script>
+
+	<!-- ngCookbook -->
+	<link rel="stylesheet" href="/assets/css/site.css">
 </head>
-
-<style>
-a[ng-click] {
-	cursor: pointer;
-}
-
-a:hover {
-	text-decoration: none;
-}
-
-td > a {
-	display: block;
-	color: black;
-}
-</style>
 
 <script>
 var app = angular.module("app", [
@@ -63,9 +51,10 @@ app.controller('simpsonsController', function($scope, Simpsons) {
 </script>
 
 <body ng-app="app">
+	<div ng-include="'../../navbar.html'"></div>
+
 	<div class="container">
 		<div class="alert alert-info">
-			<h3 class="alert-heading">REST example</h3>
 			<p>An extremely simple example of how to get Angular to pull in REST JSON feeds and display them.</p>
 			<p>This page loads the <a href="data/simpsons.json">simpsons.json</a> data file and displays each simpson in the table below.</p>
 		</div>
