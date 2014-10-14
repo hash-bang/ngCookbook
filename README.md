@@ -1,10 +1,12 @@
 ngCookbook
 ==========
-Forkable working Angular setup for concept testing.
+Forkable working Angular examples.
 
-This project is designed to be a simple-as-possible Angular setup suitable for teaching purposes.
+This project is designed to be a collection of simple-as-possible Angular setup suitable for teaching purposes.
 
 Its recomended that you fork this repo so you can make your own edits.
+
+View an online version at [http://ngcookbook.hashbang.net](http://ngcookbook.hashbang.net).
 
 
 Installation
