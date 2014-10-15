@@ -8,6 +8,8 @@ Its recomended that you fork this repo so you can make your own edits.
 
 View an online version at [http://ngcookbook.hashbang.net](http://ngcookbook.hashbang.net).
 
+Original git repo at [https://github.com/hash-bang/ngCookbook](https://github.com/hash-bang/ngCookbook).
+
 
 Installation
 ------------
