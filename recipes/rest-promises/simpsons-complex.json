@@ -1,0 +1,65 @@
+[
+	{
+		"junk": "junkValue",
+		"data": {
+			"reference": "simp-homer",
+			"names": {
+				"first": "Homer",
+				"middle": "Jay",
+				"last": "Simpson"
+			},
+			"moreJunk": "junkValue",
+			"yetMoreJunk": 123
+		}
+	},
+	{
+		"junk": "junkValue",
+		"data": {
+			"reference": "simp-bart",
+			"names": {
+				"first": "Bart",
+				"middle": "Jojo",
+				"last": "Simpson"
+			},
+			"moreJunk": "junkValue",
+			"yetMoreJunk": 456
+		}
+	},
+	{
+		"junk": "junkValue",
+		"data": {
+			"reference": "simp-marge",
+			"names": {
+				"first": "Marge",
+				"last": "Simpson"
+			},
+			"moreJunk": "junkValue",
+			"yetMoreJunk": 789
+		}
+	},
+	{
+		"junk": "junkValue",
+		"data": {
+			"reference": "simp-lisa",
+			"names": {
+				"first": "Lisa",
+				"middle": "Marie",
+				"last": "Simpson"
+			},
+			"moreJunk": "junkValue",
+			"yetMoreJunk": 123
+		}
+	},
+	{
+		"junk": "junkValue",
+		"data": {
+			"reference": "simp-maggie",
+			"names": {
+				"first": "Maggie",
+				"last": "Simpson"
+			},
+			"moreJunk": "junkValue",
+			"yetMoreJunk": 456
+		}
+	}
+]
