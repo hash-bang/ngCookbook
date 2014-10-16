@@ -41,42 +41,50 @@ app.controller('menuController', function($scope) {
 	$scope.links = [
 		{
 			url: 'recipes/tables/index.html',
-			title: 'Displaying collections as tables + selecting active elements',
+			title: 'Tables',
+			description: 'Displaying collections as tables + selecting active elements',
 			keywords: ['tables', 'ngresource']
 		},
 		{
 			url: 'recipes/rest-basic/index.html',
-			title: 'Example REST using a static JSON file',
+			title: 'REST-basic',
+			description: 'Example REST using a static JSON file',
 			keywords: ['ngresource', 'json']
 		},
 		{
 			url: 'recipes/rest-promises/index.html',
-			title: 'Example REST using a static JSON file and promises to mangle the incomming data',
+			title: 'REST-promises',
+			description: 'Example REST using a static JSON file and promises to mangle the incomming data',
 			keywords: ['ngresource', 'json', 'promise', 'map', 'mangle']
 		},
 		{
 			url: 'recipes/modals/index.html',
-			title: 'Editing multiple records from a table via a Bootstrap modal',
+			title: 'Modals',
+			description: 'Editing multiple records from a table via a Bootstrap modal',
 			keywords: ['ngresource', 'json', 'bootstrap', 'modal']
 		},
 		{
 			url: 'recipes/reddit/index.html',
-			title: 'Example cross-domain REST data feed from Reddit.com',
+			title: 'Reddit',
+			description: 'Example cross-domain REST data feed from Reddit.com',
 			keywords: ['ngresource', 'json', 'x-site', 'x-domain', 'cors']
 		},
 		{
 			url: 'recipes/rest-autorefresh/index.html',
-			title: 'REST data feed from Reddit.com with periodic auto-refresh',
+			title: 'REST-AutoRefresh',
+			description: 'REST data feed from Reddit.com with periodic auto-refresh',
 			keywords: ['ngresource', 'json', 'x-site', 'x-domain', 'cors', 'auto', 'refresh']
 		},
 		{
 			url: 'recipes/rest-form/index.html',
-			title: 'Example form which saves to a rest interface',
+			title: 'REST-Form',
+			description: 'Example form which saves to a rest interface',
 			keywords: ['ngresource', 'json', 'save']
 		},
 		{
 			url: 'recipes/watch/index.html',
-			title: 'Watching and reacting to model values',
+			title: 'Watch',
+			description: 'Watching and reacting to model values',
 			keywords: ['model', 'watch']
 		}
 	];
@@ -98,8 +106,11 @@ app.controller('menuController', function($scope) {
 			<h3>Table of contents</h3>
 			<table class="table">
 				<tr ng-repeat="link in links">
-					<td><a ng-href="{{link.url}}">{{$index+1}}</a></td>
-					<td><a ng-href="{{link.url}}">{{link.title}}</a></td>
+					<td><a ng-href="{{link.url}}"><h4>{{$index+1}}</h4></a></td>
+					<td><a ng-href="{{link.url}}">
+						<h4>{{link.title}}</h4>
+						<p class="text-muted">{{link.description}}</p>
+					</a></td>
 					<td class="text-right"><a ng-href="{{link.url}}">
 						<span ng-repeat="keyword in link.keywords" class="badge badge-info"><i class="fa fa-tag"></i> {{keyword}}</span>
 					</a></td>
