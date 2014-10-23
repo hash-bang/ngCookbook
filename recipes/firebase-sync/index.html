@@ -132,6 +132,7 @@ app.controller('syncController', function($scope, $firebase, Tree, Randomizer) {
 	$scope.tree = {};
 
 	// Boot firebase
+	// This URL is our ngCookbook Sandbox URL - please dont abuse it or I will find you and end you - MC
 	$scope.firebase = $firebase(new Firebase('https://blinding-inferno-291.firebaseio.com/'));
 
 	$scope.tree = $scope.firebase.$asObject();
