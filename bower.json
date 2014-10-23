@@ -12,6 +12,11 @@
     "angular-route": "~1.2.20",
     "fontawesome": "~4.2.0",
     "angular-resource": "~1.2.25",
-    "angular-xenophilous": "~1.3.0"
+    "angular-xenophilous": "~1.3.0",
+    "blueimp-md5": "~1.1.0",
+    "angularfire": "~0.8.2"
+  },
+  "resolutions": {
+    "angular": "1.3.0"
   }
 }

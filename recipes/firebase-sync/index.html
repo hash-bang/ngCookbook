@@ -26,6 +26,10 @@
 	<script src="/bower_components/angular-route/angular-route.min.js"></script>
 	<script src="/bower_components/angular-xenophilous/xenophilous.js"></script>
 
+	<!-- Firebase -->
+	<script src="/bower_components/firebase/firebase.js"></script>
+	<script src="/bower_components/angularfire/dist/angularfire.min.js"></script>
+
 	<!-- lodash -->
 	<script src="/bower_components/lodash/dist/lodash.min.js"></script>
 
@@ -37,7 +41,8 @@
 
 <script>
 var app = angular.module("app", [
-	'ngResource'
+	'ngResource',
+	'firebase'
 ]);
 
 app.factory('Tree', function($resource) {
@@ -50,10 +55,18 @@ app.factory('Tree', function($resource) {
 // e.g. {{object | pretty}}
 app.filter('pretty', function() {
 	return function(value) {
-		if (!value) {
+		if (!value)
 			return 'null';
-		} else if (typeof value == 'object') {
-			return JSON.stringify(value, null, '\t');
+
+		//if (_.isObject(value) && _.has(value, '$value')) // Firebase object - recurse into 'real' value
+		//	value = value.$value;
+
+		if (_.isObject(value)) {
+			try {
+				return JSON.stringify(value, null, '\t');
+			} catch(e) {
+				return 'Failed to convert: ' + e;
+			}
 		} else {
 			return value.toString(); // FIXME: Stub, this should be improved on
 		}
@@ -71,9 +84,28 @@ app.filter('md5', function() {
 	};
 });
 
-app.controller('syncController', function($scope, Tree) {
-	// Load our complex object
-	$scope.tree = Tree.query();
+app.controller('syncController', function($scope, $firebase, Tree) {
+	// Our complex object we want to sync
+	$scope.tree = {};
+
+	// Boot firebase
+	$scope.firebase = $firebase(new Firebase('https://blinding-inferno-291.firebaseio.com/'));
+
+	// $scope.firebase.$set($scope.baseTree);
+	$scope.tree = $scope.firebase.$asObject();
+	$scope.tree.$bindTo($scope, 'tree');
+
+	// Deal with initial state - populate from JSON file
+	$scope.tree.$loaded(function(data) {
+		if ('$value' in data && data.$value == null) {
+			console.log('Firebase object is empty - repopulating');
+			Tree.query().$promise.then(function(data) {
+				$scope.tree = data;
+			});
+		};
+	});
+
+	// $scope.tree.$loaded(); //.then(function() { console.log('READY') });
 
 	$scope.randomizeTree = function(options) {
 		var settings = _.defaults(options, {
@@ -86,6 +118,9 @@ app.controller('syncController', function($scope, Tree) {
 		});
 
 		var branchWorker = function(branch) {
+			if (!branch)
+				return;
+
 			if (settings.insertChance && Math.random() > settings.insertChance) {
 				if (!branch.children)
 					branch.children = [];
