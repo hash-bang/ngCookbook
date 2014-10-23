@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ngCookbook</title>
+	<meta http-equiv="Content-Language" content="en"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="google" value="notranslate"/>
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="yes"/>
+	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui"/>
+
+	<!-- jQuery -->
+	<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+
+	<!-- Bootstrap -->
+	<link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+	<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+	<!-- FontAwesome -->
+	<link rel="stylesheet" href="/bower_components/fontawesome/css/font-awesome.min.css">
+	
+	<!-- Angular -->
+	<script src="/bower_components/angular/angular.min.js"></script>
+	<script src="/bower_components/angular-resource/angular-resource.min.js"></script>
+	<script src="/bower_components/angular-route/angular-route.min.js"></script>
+	<script src="/bower_components/angular-xenophilous/xenophilous.js"></script>
+
+	<!-- lodash -->
+	<script src="/bower_components/lodash/dist/lodash.min.js"></script>
+
+	<!-- ngCookbook -->
+	<link rel="stylesheet" href="/assets/css/site.css">
+
+	<script src="/bower_components/blueimp-md5/js/md5.min.js"></script>
+</head>
+
+<script>
+var app = angular.module("app", [
+	'ngResource'
+]);
+
+app.factory('Tree', function($resource) {
+	// Obviously this isn't a real REST feed - its a read only file so any operations sent to it will be ignored
+	return $resource('tree.json', {}, {
+	});
+});
+
+// Very simple pretty printer filter
+// e.g. {{object | pretty}}
+app.filter('pretty', function() {
+	return function(value) {
+		if (!value) {
+			return 'null';
+		} else if (typeof value == 'object') {
+			return JSON.stringify(value, null, '\t');
+		} else {
+			return value.toString(); // FIXME: Stub, this should be improved on
+		}
+	};
+});
+
+// Very simple MD5 calculator
+app.filter('md5', function() {
+	return function(value) {
+		if (!value) {
+			return 'null';
+		} else {
+			return md5(value);
+		}
+	};
+});
+
+app.controller('syncController', function($scope, Tree) {
+	// Load our complex object
+	$scope.tree = Tree.query();
+
+	$scope.randomizeTree = function(options) {
+		var settings = _.defaults(options, {
+			// Probability of inserting, deleting or otherwise changing an item
+			insertChance: 0,
+			deleteChance: 0,
+			changeChance: 0,
+
+			junkChars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+		});
+
+		var branchWorker = function(branch) {
+			if (settings.insertChance && Math.random() > settings.insertChance) {
+				if (!branch.children)
+					branch.children = [];
+				var randId = Math.random() * 99999;
+				branch.children.push({id: 'random-' + randId, title: 'Random-Item-' + randId});
+			}
+
+			if (settings.deleteChance && branch.children && Math.random() > settings.deleteChance) {
+				if (branch.children.length == 1) {
+					delete branch['children'];
+				} else {
+					branch.children.splice(Math.floor(Math.random() * branch.children.length), 1);
+				}
+			}
+
+			if (settings.changeChance && branch.children && Math.random() > settings.changeChance) {
+				var childIndex = Math.floor(Math.random() * branch.children.length);
+				branch.children[childIndex].title += settings.junkChars.substr(Math.floor(Math.random() * settings.junkChars.length), 1);
+			}
+
+			if (branch.children) // Recurse through other children
+				_.forEach(branch.children, branchWorker);
+		};
+
+		_.forEach($scope.tree, branchWorker);
+	};
+});
+</script>
+
+<body ng-app="app">
+	<div ng-include="'../../navbar.html'"></div>
+
+	<div ng-controller="syncController" class="container">
+
+		<div class="row">
+			<h1>ngCookbook - Sync</h1>
+		</div>
+
+		<div class="row well">
+			<a ng-click="randomizeTree({insertChance: 0.5})" class="btn btn-default">Randomize inserts</a>
+			<a ng-click="randomizeTree({deleteChance: 0.5})" class="btn btn-default">Randomize deletes</a>
+			<a ng-click="randomizeTree({changeChance: 0.5})" class="btn btn-default">Randomize changes</a>
+		</div>
+		
+		<div class="row">
+			<dl class="dl-horizontal">
+				<dt>MD5</dt>
+				<dd>{{tree | pretty | md5}}</dd>
+			</dl>
+			<pre>{{tree | pretty}}</pre>
+		</div>
+
+	</div>
+
+</body>
