@@ -84,30 +84,8 @@ app.filter('md5', function() {
 	};
 });
 
-app.controller('syncController', function($scope, $firebase, Tree) {
-	// Our complex object we want to sync
-	$scope.tree = {};
-
-	// Boot firebase
-	$scope.firebase = $firebase(new Firebase('https://blinding-inferno-291.firebaseio.com/'));
-
-	// $scope.firebase.$set($scope.baseTree);
-	$scope.tree = $scope.firebase.$asObject();
-	$scope.tree.$bindTo($scope, 'tree');
-
-	// Deal with initial state - populate from JSON file
-	$scope.tree.$loaded(function(data) {
-		if ('$value' in data && data.$value == null) {
-			console.log('Firebase object is empty - repopulating');
-			Tree.query().$promise.then(function(data) {
-				$scope.tree = data;
-			});
-		};
-	});
-
-	// $scope.tree.$loaded(); //.then(function() { console.log('READY') });
-
-	$scope.randomizeTree = function(options) {
+app.factory('Randomizer', function($resource){
+	return function(tree, options) {
 		var settings = _.defaults(options, {
 			// Probability of inserting, deleting or otherwise changing an item
 			insertChance: 0,
@@ -145,7 +123,33 @@ app.controller('syncController', function($scope, $firebase, Tree) {
 				_.forEach(branch.children, branchWorker);
 		};
 
-		_.forEach($scope.tree, branchWorker);
+		_.forEach(tree, branchWorker);
+	};
+});
+
+app.controller('syncController', function($scope, $firebase, Tree, Randomizer) {
+	// Our complex object we want to sync
+	$scope.tree = {};
+
+	// Boot firebase
+	$scope.firebase = $firebase(new Firebase('https://blinding-inferno-291.firebaseio.com/'));
+
+	$scope.tree = $scope.firebase.$asObject();
+	$scope.tree.$bindTo($scope, 'tree');
+
+	// Deal with initial state - populate from JSON file
+	$scope.tree.$loaded(function(data) {
+		if ('$value' in data && data.$value == null) {
+			console.log('Firebase object is empty - repopulating');
+			Tree.query().$promise.then(function(data) {
+				$scope.tree = data;
+			});
+		};
+	});
+
+	// Apply actions to the tree via the Randomizer service
+	$scope.randomize = function(options) {
+		Randomizer($scope.tree, options);
 	};
 });
 </script>
@@ -160,9 +164,9 @@ app.controller('syncController', function($scope, $firebase, Tree) {
 		</div>
 
 		<div class="row well">
-			<a ng-click="randomizeTree({insertChance: 0.5})" class="btn btn-default">Randomize inserts</a>
-			<a ng-click="randomizeTree({deleteChance: 0.5})" class="btn btn-default">Randomize deletes</a>
-			<a ng-click="randomizeTree({changeChance: 0.5})" class="btn btn-default">Randomize changes</a>
+			<a ng-click="randomize({insertChance: 0.5})" class="btn btn-default">Randomize inserts</a>
+			<a ng-click="randomize({deleteChance: 0.5})" class="btn btn-default">Randomize deletes</a>
+			<a ng-click="randomize({changeChance: 0.5})" class="btn btn-default">Randomize changes</a>
 		</div>
 		
 		<div class="row">
