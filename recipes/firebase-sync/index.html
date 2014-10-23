@@ -138,12 +138,16 @@ app.controller('syncController', function($scope, $firebase, Tree, Randomizer) {
 	$scope.tree.$bindTo($scope, 'tree');
 
 	// Deal with initial state - populate from JSON file
+	$scope.reset = function() {
+		Tree.query().$promise.then(function(data) {
+			$scope.tree = data;
+		});
+	};
+
 	$scope.tree.$loaded(function(data) {
 		if ('$value' in data && data.$value == null) {
 			console.log('Firebase object is empty - repopulating');
-			Tree.query().$promise.then(function(data) {
-				$scope.tree = data;
-			});
+			$scope.reset();
 		};
 	});
 
@@ -167,6 +171,7 @@ app.controller('syncController', function($scope, $firebase, Tree, Randomizer) {
 			<a ng-click="randomize({insertChance: 0.5})" class="btn btn-default">Randomize inserts</a>
 			<a ng-click="randomize({deleteChance: 0.5})" class="btn btn-default">Randomize deletes</a>
 			<a ng-click="randomize({changeChance: 0.5})" class="btn btn-default">Randomize changes</a>
+			<a ng-click="reset()" class="btn btn-default">Reset data</a>
 		</div>
 		
 		<div class="row">
