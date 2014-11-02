@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ngCookbook</title>
+	<meta http-equiv="Content-Language" content="en"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="google" value="notranslate"/>
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="yes"/>
+	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui"/>
+
+	<!-- jQuery -->
+	<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+
+	<!-- Bootstrap -->
+	<link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+	<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+	<!-- FontAwesome -->
+	<link rel="stylesheet" href="/bower_components/fontawesome/css/font-awesome.min.css">
+	
+	<!-- Angular -->
+	<script src="/bower_components/angular/angular.min.js"></script>
+	<script src="/bower_components/angular-resource/angular-resource.min.js"></script>
+	<script src="/bower_components/angular-route/angular-route.min.js"></script>
+	<script src="/bower_components/angular-xenophilous/xenophilous.js"></script>
+
+	<!-- lodash -->
+	<script src="/bower_components/lodash/dist/lodash.min.js"></script>
+
+	<!-- ngCookbook -->
+	<link rel="stylesheet" href="/assets/css/site.css">
+</head>
+
+<script>
+var app = angular.module("app", [
+]);
+
+app.directive('tooltip', function() {
+	return {
+		scope: { // Slurp in 'tooltip' and 'tooltip-position' properties
+			tooltip: '@',
+			tooltipPosition: '@?',
+			tooltipContainer: '@?'
+		},
+		// A = <TAG tooltip="something"/> format
+		restrict: 'A',
+		link: function($scope, elem, attr, ctrl) {
+			// Init Bootstraps Tooltip handler via jQuery
+			$(elem).tooltip({
+				title: $scope.tooltip,
+				placement: $scope.tooltipPosition || 'top',
+				container: $scope.tooltipContainer || null
+			});
+		}
+	}
+});
+
+app.controller('wrapController', function($scope) {
+	// Empty controller provided in case anyone wants to hack the example
+});
+</script>
+
+<body ng-app="app">
+	<div ng-include="'../../navbar.html'"></div>
+
+	<div class="container">
+		<div class="alert alert-info">
+			<p>A simple example of wrapping an existing component inside an Angular directive.</p>
+			<p>In this case a Bootstrap Tooltip is applied to an element using a <code>&lt;TAG tooltip="text"/&gt;</code> tag</p>
+		</div>
+	</div>
+
+	<div ng-controller="wrapController" class="container">
+		
+		<div class="row">
+			<h1>ngCookbook - Directives, wrapping other components</h1>
+		</div>
+
+		<div class="row text-center pad-bottom">
+			<a class="btn btn-success" tooltip="Hello World!"><i class="fa fa-heart"></i> Button with tooltip</a>
+		</div>
+
+		<div class="row text-center pad-bottom">
+			<a class="btn btn-success" tooltip="Hello World!" tooltip-position="bottom"><i class="fa fa-heart"></i> Button with tooltip on bottom</a>
+		</div>
+	</div>
+</body>
