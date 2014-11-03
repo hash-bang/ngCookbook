@@ -125,6 +125,8 @@ app.controller('menuController', function($scope) {
 		}
 	];
 
+	$scope.searchBy = null;
+
 });
 </script>
 
@@ -139,9 +141,17 @@ app.controller('menuController', function($scope) {
 		<div class="lead">Clone the Git repo at <a href="https://github.com/hash-bang/ngCookbook">https://github.com/hash-bang/ngCookbook</a></div>
 		
 		<div class="row">
+			<div class="navbar-form pull-right" role="search">
+				<div class="input-group">
+					<input ng-model="searchBy" type="text" class="form-control" placeholder="Search">
+					<div class="input-group-btn">
+						<button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+					</div>
+				</div>
+			</div>
 			<h3>Table of contents</h3>
-			<table class="table">
-				<tr ng-repeat="link in links">
+			<table class="table table-hover">
+				<tr ng-repeat="link in filtered = (links | filter:searchBy) track by link.title">
 					<td><a ng-href="{{link.url}}"><h4>{{$index+1}}</h4></a></td>
 					<td><a ng-href="{{link.url}}">
 						<h4>{{link.title}}</h4>
@@ -150,6 +160,13 @@ app.controller('menuController', function($scope) {
 					<td class="text-right"><a ng-href="{{link.url}}">
 						<span ng-repeat="keyword in link.keywords" class="badge badge-info"><i class="fa fa-tag"></i> {{keyword}}</span>
 					</a></td>
+				</tr>
+				<tr ng-show="!filtered.length">
+					<td colspan="3">
+						<div class="alert alert-warning">
+							No recipes found matching that search term.
+						</div>
+					</td>
 				</tr>
 			</table>
 		</div>
