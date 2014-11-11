@@ -23,6 +23,26 @@ td > a {
 	background-color: #2d6987;
 }
 
+/* Table styles {{{ */
+.table-crud td {
+	vertical-align: middle !important;
+}
+
+.table-crud td:first-child {
+	padding: 4px !important;
+}
+
+.table-crud td:first-child > .btn-group {
+	float: left;
+	margin-right: 7px;
+}
+
+.table-crud td:first-child > a {
+	margin-top: 4px;
+}
+
+/* }}} */
+
 /* Padding helpers {{{ */
 .pad, .pad-sm, .pad-lg, .pad-xl {display:block;}
 .pad, table.pad td {padding: 20px;}

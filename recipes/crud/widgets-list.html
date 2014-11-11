@@ -1,0 +1,24 @@
+<table ng-controller="widgetListController"  class="table table-bordered table-striped table-hover table-crud">
+	<thead>
+		<th>Name</th>
+		<th class="text-right" width="50px">Sprockets</th>
+		<th class="text-right" width="50px">Flanges</th>
+	</thead>
+	<tbody>
+		<tr ng-repeat="widget in widgets">
+			<td>
+				<div class="btn-group">
+					<a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-cog"></i> <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="#/{{widget.id}}"><i class="fa fa-pencil"></i> Edit</a></li>
+						<li class="divider"></li>
+						<li><a href="#/{{widget.id}}/delete"><i class="fa fa-trash-o"></i> Delete</a></li>
+					</ul>
+				</div>
+				<a href="#/{{widget.id}}">{{widget.title}}</a>
+			</td>
+			<td class="text-right"><a href="#/{{widget.id}}">{{widget.sprockets}}</a></td>
+			<td class="text-right"><a href="#/{{widget.id}}">{{widget.flanges}}</a></td>
+		</tr>
+	</tbody>
+</table>

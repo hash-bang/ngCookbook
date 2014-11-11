@@ -1,0 +1,6 @@
+{
+	"id": "widget-foo",
+	"title": "Foo widget",
+	"sprockets": 100,
+	"flanges": 50
+}

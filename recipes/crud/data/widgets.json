@@ -1,0 +1,50 @@
+[
+	{
+		"id": "widget-foo",
+		"title": "Foo widget",
+		"sprockets": 100,
+		"flanges": 50
+	},
+	{
+		"id": "widget-bar",
+		"title": "Bar widget",
+		"sprockets": 20,
+		"flanges": 83
+	},
+	{
+		"id": "widget-baz",
+		"title": "Baz widget",
+		"sprockets": 129,
+		"flanges": 398
+	},
+	{
+		"id": "widget-quz",
+		"title": "Quz widget",
+		"sprockets": 18,
+		"flanges": 26
+	},
+	{
+		"id": "widget-corge",
+		"title": "Corge widget",
+		"sprockets": 83,
+		"flanges": 91
+	},
+	{
+		"id": "widget-grault",
+		"title": "Grault widget",
+		"sprockets": 63,
+		"flanges": 95
+	},
+	{
+		"id": "widget-garply",
+		"title": "Garply widget",
+		"sprockets": 4,
+		"flanges": 54
+	},
+	{
+		"id": "widget-waldo",
+		"title": "Waldo widget",
+		"sprockets": 72,
+		"flanges": 138
+	}
+]

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ngCookbook</title>
+	<meta http-equiv="Content-Language" content="en"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="google" value="notranslate"/>
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="yes"/>
+	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui"/>
+
+	<!-- jQuery -->
+	<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+
+	<!-- Bootstrap -->
+	<link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+	<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+	<!-- FontAwesome -->
+	<link rel="stylesheet" href="/bower_components/fontawesome/css/font-awesome.min.css">
+	
+	<!-- Angular -->
+	<script src="/bower_components/angular/angular.min.js"></script>
+	<script src="/bower_components/angular-resource/angular-resource.min.js"></script>
+	<script src="/bower_components/angular-route/angular-route.min.js"></script>
+	<script src="/bower_components/angular-xenophilous/xenophilous.js"></script>
+
+	<!-- lodash -->
+	<script src="/bower_components/lodash/dist/lodash.min.js"></script>
+
+	<!-- ngCookbook -->
+	<link rel="stylesheet" href="/assets/css/site.css">
+</head>
+
+<script>
+var app = angular.module("app", [
+	'ngResource',
+	'ngRoute'
+]);
+
+app.config(function($routeProvider, $locationProvider) {
+	$routeProvider
+		.when('/:id', {templateUrl: "widgets-edit.html"})
+		.when('/:id/delete', {templateUrl: "widgets-delete.html"})
+		.otherwise({templateUrl: "widgets-list.html"});
+});
+
+app.factory('Widget', function($resource) {
+	// Obviously this isn't a real REST feed - its a read only file so any operations sent to it will be ignored
+	return $resource('data/widgets.json', {}, {
+		// NOTE: The following 3 lines should be removed when you have a 'real' REST server, its provided here so Angular is happy with a JSON object return
+		get: {url: 'data/widgets-single.json', method: 'get'},
+		save: {url: 'data/widgets-single.json', method: 'get'},
+		delete: {url: 'data/widgets-single.json', method: 'get'}
+	});
+});
+
+// Controller that manages the items list
+app.controller('widgetListController', function($scope, $routeParams, Widget) {
+	$scope.widget = null;
+	$scope.widgets = Widget.query();
+});
+
+// Controller that manages the editing of items
+app.controller('widgetEditController', function($scope, $location, $routeParams, Widget) {
+	if (!$routeParams.id) // No ID - send back to list
+		$location.path('/');
+
+	$scope.widget = Widget.get({id: $routeParams.id});
+
+	$scope.saving = false;
+	$scope.save = function() {
+		$scope.saving = true;
+		Widget.save({id: $scope.widget.id}, $scope.widget).$promise.then(function() {
+			$location.path('/'); // Redirect back to list
+		});
+	};
+});
+
+// Controller that manages deleting items
+app.controller('widgetDeleteController', function($scope, $location, $routeParams, $timeout, Widget) {
+	if (!$routeParams.id) // No ID - send back to list
+		$location.path('/');
+
+	Widget.delete({id: $routeParams.id}).$promise.then(function() {
+		$timeout(function() { // Timeout added for purely aesthetic reasons
+			$location.path('/'); // Redirect back to list
+		}, 3000);
+	});
+});
+</script>
+
+<body ng-app="app">
+	<div ng-include="'../../navbar.html'"></div>
+
+	<div class="container">
+		<div class="alert alert-info">
+			<p>Full <abbr title="Create, Read, Update, Destroy">CRUD</abbr> interface controller demonstrating a self contained Index + Edit page using ngRoute</p>
+			<p><strong>NOTE:</strong> Due to not having a real REST server to test against clicking on an item will always show the first one in the set. Setting up a functional REST interface will make this interface function correctly.</p>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<h1>ngCookbook - CRUD interface</h1>
+		</div>
+
+		<div class="row">
+			<ng-view></ng-view>
+		</div>
+	</div>
+</body>
