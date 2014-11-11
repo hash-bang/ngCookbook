@@ -102,16 +102,12 @@ app.controller('treeController', function($scope, Tree) {
 </script>
 
 <body ng-app="app">
-	<div ng-include="'../../navbar.html'"></div>
+	<div ng-init="title = 'Tree structures'" ng-include="'../../navbar.html'"></div>
 
 	<div ng-controller="treeController" class="container">
 
 		<div class="row">
-			<h1>ngCookbook - Tree structures</h1>
-		</div>
-		
-		<div class="row">
-			<div tree-branch="tree" level="0"></div>
+			<div tree-branch="tree"></div>
 		</div>
 
 	</div>

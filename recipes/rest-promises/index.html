@@ -70,19 +70,16 @@ app.controller('simpsonsController', function($scope, Simpsons) {
 </script>
 
 <body ng-app="app">
-	<div ng-include="'../../navbar.html'"></div>
+	<div ng-init="title = 'REST + Promise example'" ng-include="'../../navbar.html'"></div>
 
 	<div class="container">
 		<div class="alert alert-info">
+			<a data-dismiss="alert" class="pull-right"><i class="fa fa-times"></i></a>
 			<p>A more complex example of basic REST operations, this time using a promise to mangle the incomming data into a format we prefer.</p>
 		</div>
 	</div>
 
 	<div ng-controller="simpsonsController" class="container">
-		
-		<div class="row">
-			<h1>ngCookbook - REST + Promise example</h1>
-		</div>
 
 		<div class="row">
 			<table class="table table-bordered table-striped">

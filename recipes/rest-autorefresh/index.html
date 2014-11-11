@@ -78,20 +78,18 @@ app.controller('redditController', function($scope, $window, $timeout, $http, Re
 </script>
 
 <body ng-app="app">
-	<div ng-include="'../../navbar.html'"></div>
+	<div ng-init="title = 'Reddit REST + Auto-Refresh example'" ng-include="'../../navbar.html'"></div>
 
 	<div class="container">
 		<div class="alert alert-info">
+			<a data-dismiss="alert" class="pull-right"><i class="fa fa-times"></i></a>
 			<p>A more complex example of <a href="../reddit/index.html">the Reddit REST feed example</a> where data is loaded from an external JSON feed but auto-refreshed periodically.</p>
+			<p>For an example of <em>live</em> data refresh see the <a href="../firebase-sync/index.html">firebase-sync</a> recipe.</p>
 		</div>
 	</div>
 
 	<div ng-controller="redditController" class="container">
 		
-		<div class="row">
-			<h1>ngCookbook - Reddit REST + Auto-Refresh example</h1>
-		</div>
-
 		<div class="row">
 			<table class="table table-bordered table-striped">
 				<thead>

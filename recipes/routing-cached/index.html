@@ -61,19 +61,16 @@ app.controller('routingController', function($scope) {
 </script>
 
 <body ng-app="app">
-	<div ng-include="'../../navbar.html'"></div>
+	<div ng-init="title = 'Routing-Cached'" ng-include="'../../navbar.html'"></div>
 
 	<div class="container">
 		<div class="alert alert-info">
+			<a data-dismiss="alert" class="pull-right"><i class="fa fa-times"></i></a>
 			<p>An extended version of <a href="../routing">the routing example</a> that uses a single self-contained file rather than lots of smaller partials files</p>
 		</div>
 	</div>
 
 	<div ng-controller="routingController" class="container">
-		
-		<div class="row">
-			<h1>ngCookbook - Routing-Cached</h1>
-		</div>
 
 		<div class="row text-center pad-bottom">
 			Open page:

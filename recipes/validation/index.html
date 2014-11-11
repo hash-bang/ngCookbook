@@ -47,20 +47,17 @@ app.controller('formController', function($scope) {
 </script>
 
 <body ng-app="app">
-	<div ng-include="'../../navbar.html'"></div>
+	<div ng-init="title = 'Validation'" ng-include="'../../navbar.html'"></div>
 
 	<div class="container">
 		<div class="alert alert-info">
+			<a data-dismiss="alert" class="pull-right"><i class="fa fa-times"></i></a>
 			<p>Example form validation with Angular.</p>
 			<p>The form button is disabled unless all the fields are valid. Error messages are shown when the attached validation condition is not met.</p>
 		</div>
 	</div>
 
 	<div ng-controller="formController" class="container">
-		
-		<div class="row">
-			<h1>ngCookbook - Form example</h1>
-		</div>
 
 		<div class="row">
 			<!-- Debugging - not relevent to actual solution - its only provided here for reference {{{ -->

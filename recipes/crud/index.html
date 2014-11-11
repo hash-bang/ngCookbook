@@ -92,20 +92,17 @@ app.controller('widgetDeleteController', function($scope, $location, $routeParam
 </script>
 
 <body ng-app="app">
-	<div ng-include="'../../navbar.html'"></div>
+	<div ng-init="title = 'Full CRUD interface'" ng-include="'../../navbar.html'"></div>
 
 	<div class="container">
 		<div class="alert alert-info">
+			<a data-dismiss="alert" class="pull-right"><i class="fa fa-times"></i></a>
 			<p>Full <abbr title="Create, Read, Update, Destroy">CRUD</abbr> interface controller demonstrating a self contained Index + Edit page using ngRoute</p>
 			<p><strong>NOTE:</strong> Due to not having a real REST server to test against clicking on an item will always show the first one in the set. Setting up a functional REST interface will make this interface function correctly.</p>
 		</div>
 	</div>
 
 	<div class="container">
-		<div class="row">
-			<h1>ngCookbook - CRUD interface</h1>
-		</div>
-
 		<div class="row">
 			<ng-view></ng-view>
 		</div>

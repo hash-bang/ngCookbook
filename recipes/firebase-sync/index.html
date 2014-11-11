@@ -160,13 +160,9 @@ app.controller('syncController', function($scope, $firebase, Tree, Randomizer) {
 </script>
 
 <body ng-app="app">
-	<div ng-include="'../../navbar.html'"></div>
+	<div ng-init="title = 'Firebase Sync'" ng-include="'../../navbar.html'"></div>
 
 	<div ng-controller="syncController" class="container">
-
-		<div class="row">
-			<h1>ngCookbook - Sync</h1>
-		</div>
 
 		<div class="row well">
 			<a ng-click="randomize({insertChance: 0.5})" class="btn btn-default">Randomize inserts</a>

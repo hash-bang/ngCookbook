@@ -69,20 +69,10 @@ app.controller('formController', function($scope) {
 </script>
 
 <body ng-app="app">
-	<div ng-include="'../../navbar.html'"></div>
-
-	<div class="container">
-		<div class="alert alert-info">
-			<p>Simple form example using Angular models.</p>
-		</div>
-	</div>
+	<div ng-init="title = 'Form example with Watches'" ng-include="'../../navbar.html'"></div>
 
 	<div ng-controller="formController" class="container">
 		
-		<div class="row">
-			<h1>ngCookbook - Form example</h1>
-		</div>
-
 		<div class="well">
 			<p>{{lastChange}}</p>
 		</div>

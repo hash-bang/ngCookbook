@@ -63,21 +63,17 @@ app.controller('wrapController', function($scope) {
 </script>
 
 <body ng-app="app">
-	<div ng-include="'../../navbar.html'"></div>
+	<div ng-init="title = 'Directives, wrapping other components'" ng-include="'../../navbar.html'"></div>
 
 	<div class="container">
 		<div class="alert alert-info">
+			<a data-dismiss="alert" class="pull-right"><i class="fa fa-times"></i></a>
 			<p>A simple example of wrapping an existing component inside an Angular directive.</p>
 			<p>In this case a Bootstrap Tooltip is applied to an element using a <code>&lt;TAG tooltip="text"/&gt;</code> tag</p>
 		</div>
 	</div>
 
 	<div ng-controller="wrapController" class="container">
-		
-		<div class="row">
-			<h1>ngCookbook - Directives, wrapping other components</h1>
-		</div>
-
 		<div class="row text-center pad-bottom">
 			<a class="btn btn-success" tooltip="Hello World!"><i class="fa fa-heart"></i> Button with tooltip</a>
 		</div>

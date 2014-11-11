@@ -60,13 +60,9 @@ app.controller('widgetController', function($scope, $q, $timeout) {
 </script>
 
 <body ng-app="app">
-	<div ng-include="'../../navbar.html'"></div>
+	<div ng-init="title = 'Basic table layout example'" ng-include="'../../navbar.html'"></div>
 
 	<div ng-controller="widgetController" class="container">
-
-		<div class="row">
-			<h1>ngCookbook - Basic table layout example</h1>
-		</div>
 		
 		<div class="row">
 			<table class="table table-bordered table-striped">

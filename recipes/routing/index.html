@@ -52,7 +52,7 @@ app.controller('routingController', function($scope) {
 </script>
 
 <body ng-app="app">
-	<div ng-include="'../../navbar.html'"></div>
+	<div ng-init="title = 'Routing'" ng-include="'../../navbar.html'"></div>
 
 	<div class="container">
 		<div class="alert alert-info">
@@ -63,10 +63,6 @@ app.controller('routingController', function($scope) {
 	</div>
 
 	<div ng-controller="routingController" class="container">
-		
-		<div class="row">
-			<h1>ngCookbook - Routing</h1>
-		</div>
 
 		<div class="row text-center pad-bottom">
 			Open page:

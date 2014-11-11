@@ -43,21 +43,18 @@ app.controller('templateController', function($scope) {
 </script>
 
 <body ng-app="app">
-	<div ng-include="'../../navbar.html'"></div>
+	<div ng-init="title = 'FIXME: Title goes here'" ng-include="'../../navbar.html'"></div>
 
 	<div class="container">
 		<div class="alert alert-info">
+			<a data-dismiss="alert" class="pull-right"><i class="fa fa-times"></i></a>
 			<p>FIXME: Enter description here</p>
 		</div>
 	</div>
 
-	<div ng-controller="simpsonsController" class="container">
-		
+	<div ng-controller="templateController" class="container">
 		<div class="row">
-			<h1>ngCookbook - FIXME: Enter title</h1>
+			FIXME: Page content goes here
 		</div>
-
-		<div>FIXME: Page content goes here</div>
-
 	</div>
 </body>
