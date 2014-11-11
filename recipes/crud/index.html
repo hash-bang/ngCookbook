@@ -49,10 +49,11 @@ app.config(function($routeProvider, $locationProvider) {
 app.factory('Widget', function($resource) {
 	// Obviously this isn't a real REST feed - its a read only file so any operations sent to it will be ignored
 	return $resource('data/widgets.json', {}, {
-		// NOTE: The following 3 lines should be removed when you have a 'real' REST server, its provided here so Angular is happy with a JSON object return
+		// NOTE: The following 4 lines should be removed when you have a 'real' REST server, its provided here so Angular is happy with a JSON object return
+		create: {url: 'data/widgets-single.json', method: 'get'},
+		delete: {url: 'data/widgets-single.json', method: 'get'},
 		get: {url: 'data/widgets-single.json', method: 'get'},
-		save: {url: 'data/widgets-single.json', method: 'get'},
-		delete: {url: 'data/widgets-single.json', method: 'get'}
+		save: {url: 'data/widgets-single.json', method: 'get'}
 	});
 });
 
@@ -62,19 +63,33 @@ app.controller('widgetListController', function($scope, $routeParams, Widget) {
 	$scope.widgets = Widget.query();
 });
 
-// Controller that manages the editing of items
+// Controller that manages the creation and editing of existing items
 app.controller('widgetEditController', function($scope, $location, $routeParams, Widget) {
+	$scope.widget = { // Setup default prototype widget to use as a tempalte when creating
+		id: '_new',
+		title: '',
+		sprockets: 0,
+		flanges: 0
+	};
+
 	if (!$routeParams.id) // No ID - send back to list
 		$location.path('/');
 
-	$scope.widget = Widget.get({id: $routeParams.id});
+	if ($routeParams.id != 'new') // Not creating a new one? Go fetch it by its ID
+		$scope.widget = Widget.get({id: $routeParams.id});
 
 	$scope.saving = false;
 	$scope.save = function() {
 		$scope.saving = true;
-		Widget.save({id: $scope.widget.id}, $scope.widget).$promise.then(function() {
-			$location.path('/'); // Redirect back to list
-		});
+		if ($scope.widget.id == '_new') { // Create a new item
+			Widget.create($scope.widget).$promise.then(function() {
+				$location.path('/'); // Redirect back to list when done
+			});
+		} else { // Save an existing item
+			Widget.save({id: $scope.widget.id}, $scope.widget).$promise.then(function() {
+				$location.path('/'); // Redirect back to list when done
+			});
+		}
 	};
 });
 
