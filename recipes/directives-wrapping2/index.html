@@ -47,40 +47,52 @@ app.directive('tooltip', function() {
 		// A = <TAG tooltip="something"/> format
 		restrict: 'A',
 		link: function($scope, elem, attr, ctrl) {
-			// Init Bootstraps Tooltip handler via jQuery
-			$(elem).tooltip({
-				title: $scope.tooltip,
-				placement: $scope.tooltipPosition || 'top',
-				container: $scope.tooltipContainer || null
+			// Setup a watch on the properties we care about that will rebuild the tooltip
+			$scope.$watch('tooltip + tooltipPosition + tooltipContainer', function() {
+				var isVisible = $(elem).siblings('.tooltip').length > 0; // Is the tooltip already shown?
+				$(elem)
+					.tooltip('destroy') // Get Bootstrap to destroy the below
+					.tooltip({
+						title: $scope.tooltip,
+						placement: $scope.tooltipPosition || 'top',
+						container: $scope.tooltipContainer || null,
+						animation: false
+					});
+
+				if (isVisible) // Reshow the tooltip if we WERE using it before
+					$(elem).tooltip('show');
 			});
 		}
 	}
 });
 
-app.controller('wrapController', function($scope) {
-	// Empty controller provided in case anyone wants to hack the example
+app.controller('wrapController', function($scope, $timeout) {
+	$scope.time = 'Loading...';
+
+	$scope.refresh = function() {
+		$scope.time = new Date().toString();
+		$timeout($scope.refresh, 1000); // Rerun this function in a seconds time
+	};
+	$scope.refresh(); // Trigger immediately to set the time now and start the timer
+
 });
 </script>
 
 <body ng-app="app">
-	<div ng-init="title = 'Directives, wrapping other components'" ng-include="'../../navbar.html'"></div>
+	<div ng-init="title = 'Directives, wrapping other components (advanced)'" ng-include="'../../navbar.html'"></div>
 
 	<div class="container">
 		<div class="alert alert-info">
 			<a data-dismiss="alert" class="pull-right"><i class="fa fa-times"></i></a>
-			<p>A simple example of wrapping an existing component inside an Angular directive.</p>
-			<p>In this case a Bootstrap Tooltip is applied to an element using a <code>&lt;TAG tooltip="text"/&gt;</code> tag</p>
-			<p><strong>NOTE:</strong> This directive is designed to be as simple as possible and therefore doesnt deal with things such as the tooltip having dynamic, templated text (e.g. <code ng-non-bindable>Hello {{name}}</code>). See <a href="../directives-wrapping2/index.html">directives-wrapping2</a> for the complete version of this directive.</p>
+			<p>This is the more complex version of <a href="../directives-wrapping/index.html">directives-wrapping</a> which now features dynamically updating content.</p>
+			<p>This time the contents of any of the <code>tooltip*</code> attributes can contain Angular mustaches.</p>
+			<p>Hover over the button to see the tooltip text change along with <code>$scope.time</code></p>
 		</div>
 	</div>
 
 	<div ng-controller="wrapController" class="container">
-		<div class="row text-center pad-bottom">
-			<a class="btn btn-success" tooltip="Hello World!"><i class="fa fa-heart"></i> Button with tooltip</a>
-		</div>
-
-		<div class="row text-center pad-bottom">
-			<a class="btn btn-success" tooltip="Hello World!" tooltip-position="bottom"><i class="fa fa-heart"></i> Button with tooltip on bottom</a>
+		<div class="row text-center">
+			<a class="btn bgn-large btn-primary" tooltip="Its {{time}}!"><i class="fa fa-clock-o"></i> The time is {{time}}</a>
 		</div>
 	</div>
 </body>
