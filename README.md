@@ -22,3 +22,21 @@ Run the following in a console
 	bower install
 
 Now simply open up [index.html](index.html) in a web browser to get started.
+
+
+Heroku / entire server install
+------------------------------
+If you dont want to host off your local file system or want to use something like Heroku you must at least provide a server setup to serve files:
+
+
+	# Clone the repo
+	git clone git@github.com:hash-bang/ngCookbook.git
+
+	# Install all bower components
+	bower install
+
+	# Install all npm packages
+	npm install
+
+	# Launch the server
+	node server

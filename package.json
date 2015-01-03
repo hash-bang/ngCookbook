@@ -1,0 +1,26 @@
+{
+  "name": "ng-cookbook",
+  "version": "1.0.0",
+  "description": "Forkable working Angular examples",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hash-bang/ngCookbook.git"
+  },
+  "keywords": [
+    "angular",
+    "examples"
+  ],
+  "author": "Matt Carter <m@ttcarter.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hash-bang/ngCookbook/issues"
+  },
+  "homepage": "https://github.com/hash-bang/ngCookbook",
+  "dependencies": {
+    "express": "~4.10.6"
+  }
+}
