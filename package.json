@@ -4,7 +4,8 @@
   "description": "Forkable working Angular examples",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "bower install && gulp build"
   },
   "repository": {
     "type": "git",
