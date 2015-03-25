@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ngCookbook</title>
+	<meta http-equiv="Content-Language" content="en"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="google" value="notranslate"/>
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="yes"/>
+	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui"/>
+
+	<!-- jQuery -->
+	<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+
+	<!-- Bootstrap -->
+	<link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+	<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+	<!-- FontAwesome -->
+	<link rel="stylesheet" href="/bower_components/fontawesome/css/font-awesome.min.css">
+	
+	<!-- Angular -->
+	<script src="/bower_components/angular/angular.min.js"></script>
+	<script src="/bower_components/angular-resource/angular-resource.min.js"></script>
+	<script src="/bower_components/angular-route/angular-route.min.js"></script>
+	<script src="/bower_components/angular-xenophilous/xenophilous.js"></script>
+
+	<!-- lodash -->
+	<script src="/bower_components/lodash/dist/lodash.min.js"></script>
+
+	<!-- ngCookbook -->
+	<link rel="stylesheet" href="/assets/css/site.css">
+</head>
+
+<script>
+var app = angular.module("app", [
+]);
+
+app.controller('formController', function($scope) {
+	$scope.activeParent = null; // The active parent branch
+	$scope.activeChild = null; // The active child branch
+
+	$scope.parent = null; // The currently selected parent object (used to iterate over the children)
+
+	$scope.tree = [
+		{
+			id: 'foo',
+			name: 'Foo',
+			children: [
+				{
+					id: 'foo-foo',
+					name: 'Foo-Foo'
+				},
+				{
+					id: 'foo-bar',
+					name: 'Foo-Bar'
+				},
+				{
+					id: 'foo-baz',
+					name: 'Foo-Baz'
+				},
+			]
+		},
+		{
+			id: 'bar',
+			name: 'Bar',
+			children: [
+				{
+					id: 'bar-foo',
+					name: 'Bar-Foo'
+				},
+				{
+					id: 'bar-bar',
+					name: 'Bar-Bar'
+				},
+				{
+					id: 'bar-baz',
+					name: 'Bar-Baz'
+				},
+			]
+		},
+		{
+			id: 'baz',
+			name: 'Baz',
+			children: [
+				{
+					id: 'baz-foo',
+					name: 'Baz-Foo'
+				},
+				{
+					id: 'baz-bar',
+					name: 'Baz-Bar'
+				},
+				{
+					id: 'baz-baz',
+					name: 'Baz-Baz'
+				},
+			]
+		},
+	];
+
+	$scope.$watch('activeParent', function() {
+		$scope.parent = _.find($scope.tree, {id: $scope.activeParent});
+	});
+});
+</script>
+
+<body ng-app="app">
+	<div ng-init="title = 'Form example'" ng-include="'../../navbar.html'"></div>
+
+	<div class="container">
+		<div class="alert alert-info">
+			<a data-dismiss="alert" class="pull-right"><i class="fa fa-times"></i></a>
+			<p>Simple form using hierarchical select boxes.</p>
+		</div>
+	</div>
+
+	<div ng-controller="formController" class="container">
+		<div class="row">
+			<div class="form-horizontal">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Parent</label>
+					<div class="col-sm-10">
+						<select ng-model="activeParent">
+							<option ng-repeat="branch in tree" value="{{branch.id}}">{{branch.name}}</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Child</label>
+					<div class="col-sm-9">
+						<select ng-model="activeChild">
+							<option ng-repeat="branch in parent.children" value="{{branch.id}}">{{branch.name}}</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Parent Value</label>
+					<div class="col-sm-10">{{activeParent}}</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Child Value</label>
+					<div class="col-sm-10">{{activeChild}}</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
