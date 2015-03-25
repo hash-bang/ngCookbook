@@ -20,7 +20,7 @@ app.use(function(err, req, res, next){
 	res.send(500, 'Something broke!').end();
 });
 
-var port = process.env.PORT || 80;
+var port = process.env.PORT || process.env.VMC_APP_PORT || 80;
 var server = app.listen(port, function() {
 	console.log('Web interface listening on port', port);
 });
