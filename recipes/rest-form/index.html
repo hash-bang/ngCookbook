@@ -45,12 +45,13 @@ app.factory('Form', function($resource) {
 });
 
 app.controller('formController', function($scope, Form) {
+	$scope.id = 123; // Unique ID to find the record on the server
 	$scope.email = 'someone@somewhere.com';
 	$scope.password = 'password';
 	$scope.remember = true;
 
 	$scope.save = function() {
-		Form.save({email: $scope.email}, {
+		Form.save({email: $scope.id}, {
 			email: $scope.email,
 			password: $scope.password,
 			remember: $scope.remember
